@@ -1,22 +1,20 @@
-import React, { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 function Light(props) {
     const lightRef = useRef(null);
 
-    setTimeout(() => {turnOnLight()}, props.initDelay);
-
-
-    const turnOnLight = () => {
-        if (lightRef.current) {
-            lightRef.current.classList.add('shine');
-            setTimeout(turnOffLight, 200)
+    useEffect(() => {
+        if (props.num === props.currentLight) {
+            if (lightRef.current) {
+                lightRef.current.classList.add('shine');
+                setTimeout(turnOffLight, 200);
+            }
         }
-    }
+    }, [props]);
 
     const turnOffLight = () => {
         if (lightRef.current) {
             lightRef.current.classList.remove('shine');
-            setTimeout(turnOnLight, props.delay * (props.total - 1));
         }
     }
 

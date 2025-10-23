@@ -58,17 +58,15 @@ body {
   justify-content: space-between;
 }
 
-.left-light-flex {
+.left {
   float: left;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  height: 90px;
-  margin-top: 9px;
 }
 
-.right-light-flex {
+.right{
   float: right;
+}
+
+.light-flex {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
