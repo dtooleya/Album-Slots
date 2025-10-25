@@ -1,14 +1,16 @@
 import Slider from '@mui/material/Slider'
 import { useState } from 'react';
 
-function Arm() {
+function Arm(props) {
 
     const [sliderValue, setSliderValue] = useState(100)
 
     const handleSlider = (event, newValue) => {
         if (newValue === 0) {
             setTimeout(() => {setSliderValue(100)}, 1000);
-        } else {
+            props.setSpinning(true);
+            setTimeout(() => {props.setSpinning(false)}, 5000);
+        } else if (!props.spinning) {
             setSliderValue(newValue);
         }
     }
