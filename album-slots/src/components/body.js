@@ -63,7 +63,7 @@ function Body() {
             <div className="body">
                 <div className="flex-around" style={{ alignItems: "center", height: '100%' }}>
                     {Array.from({ length: 5 }, (_, i) => (
-                        <SlotSpinner key={"spinner_" + i} url={i < albumArtUrlList.length ? albumArtUrlList[i] : ""}></SlotSpinner>
+                        <SlotSpinner spinning={spinning} key={"spinner_" + i} url={i < albumArtUrlList.length ? albumArtUrlList[i] : ""}></SlotSpinner>
                     ))}
                 </div>
             </div>
