@@ -3,33 +3,35 @@ import { DatabaseService } from "../service/databaseService";
 import { AlbumArtService } from "../service/albumArtService";
 import Arm from "./arm";
 import SlotSpinner from "./Slot-Spinner";
+import AlbumInfo from "./Album-Info";
 
 function Body() {
 
     const [spinning, setSpinning] = useState(false);
     const [selectedAlbums, setSelectedAlbums] = useState([]);
-    const [albumArtUrlList, setAlbumArtUrlList] = useState([]);
 
     useEffect(() => {
         if (spinning) {
             let promise = new Promise(function (resolve, reject) {
-                setAlbumArtUrlList([]);
                 generateAlbumIds(resolve, reject);
             });
             promise.then(handleFetch);
         }
     }, [spinning]);
 
-    useEffect(() => {
-        selectedAlbums.forEach(album => {
-            getAlbumArt(album);
-        });
-    }, [selectedAlbums]);
-
     async function handleFetch(albumIds) {
         const data = await DatabaseService.selectMultipleAlbumsById(albumIds);
-        console.log(data);
-        setSelectedAlbums(data);
+        console.log("fetched albums:", data);
+        const artPromises = data.map(album =>
+            AlbumArtService.getAlbumCover(album).catch(err => {
+                console.error('getAlbumCover error for', album, err);
+                return 'Error';
+            })
+        );
+
+        const artResults = await Promise.all(artPromises);
+        const albumsWithUrl = data.map((album, i) => ({ ...album, url: artResults[i] }));
+        setSelectedAlbums(albumsWithUrl);
     }
 
     async function generateAlbumIds(resolve, reject) {
@@ -51,19 +53,17 @@ function Body() {
         resolve(albumIds);
     }
 
-    async function getAlbumArt(album) {
-        const url = await AlbumArtService.getAlbumCover(album);
-        if (url) {
-            setAlbumArtUrlList(prev => [...prev, url]);
-        }
-    }
-
     return (
         <div className="flex-center">
             <div className="body">
-                <div className="flex-around" style={{ alignItems: "center", height: '100%' }}>
+                <div className="flex-around spinner-container" style={{ alignItems: "center", }}>
                     {Array.from({ length: 5 }, (_, i) => (
-                        <SlotSpinner spinning={spinning} key={"spinner_" + i} url={i < albumArtUrlList.length ? albumArtUrlList[i] : ""}></SlotSpinner>
+                        <div>
+                            <SlotSpinner spinning={spinning} key={"spinner_" + i}
+                                url={selectedAlbums.length >= 5? selectedAlbums[i].url: ""}></SlotSpinner>
+
+                            <AlbumInfo album={selectedAlbums[i]} />
+                        </div>
                     ))}
                 </div>
             </div>

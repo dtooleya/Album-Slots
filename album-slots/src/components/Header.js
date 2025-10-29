@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 function Header() {
     const delay = 200;
-    const totalLights = 24;
+    const totalLights = 22;
     let [currentLight, setCurrentLight] = useState(0);
 
     const updateLight = () => {
@@ -28,21 +28,18 @@ function Header() {
                     ))}
                 </div>
                 <div className="left light-flex">
-                    {Array.from({ length: 2 }, (_, i) => (
-                        <Light num={23 - i} currentLight={currentLight} key={"light_"+ (23-i)}></Light>
-                    ))}
+                    <Light num={21} currentLight={currentLight} key={"light_21"}></Light>
                 </div>
                 <div style={{ marginLeft: '15px' }}>
                     <div className="title">Album Slots</div>
                 </div>
                 <div className="right light-flex">
-                    {Array.from({ length: 2 }, (_, i) => (
-                        <Light num={10 + i} currentLight={currentLight} key={"light_"+ (10 + i)}></Light>
-                    ))}
+                        <Light num={10} currentLight={currentLight} key={"light_"+ (10)}></Light>
+        
                 </div>
                 <div className="flex" style={{ width: '100%' }}>
                     {Array.from({ length: 10 }, (_, i) => (
-                        <Light num={21 - i} currentLight={currentLight} key={"light_"+ (21 -i)}></Light>
+                        <Light num={20 - i} currentLight={currentLight} key={"light_"+ (20 -i)}></Light>
                     ))}
                 </div>
             </div>
