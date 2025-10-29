@@ -56,13 +56,13 @@ function Body() {
     return (
         <div className="flex-center">
             <div className="body">
-                <div className="flex-around spinner-container" style={{ alignItems: "center", }}>
+                <div className="flex-around spinner-container">
                     {Array.from({ length: 5 }, (_, i) => (
-                        <div>
-                            <SlotSpinner spinning={spinning} key={"spinner_" + i}
+                        <div key={i}>
+                            <SlotSpinner spinning={spinning} key={"spinner_" + i} delay={(i + 1) * 300}
                                 url={selectedAlbums.length >= 5? selectedAlbums[i].url: ""}></SlotSpinner>
 
-                            <AlbumInfo album={selectedAlbums[i]} />
+                            <AlbumInfo album={selectedAlbums[i]} delay={i * 300 + 1000} spinning={spinning} />
                         </div>
                     ))}
                 </div>

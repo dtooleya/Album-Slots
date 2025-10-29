@@ -2,33 +2,47 @@ import { createRef, useEffect, useState } from "react";
 import Marquee from "react-fast-marquee"
 
 function SlotSpinner(props) {
-    const [fruits, setFruits] = useState(["🍒", "🍉", "🍊", "🍓", "🍇", "🥝", "7"]);
+    const fruits = ["🍒", "🍉", "🍊", "🍓", "🍇", "🥝", "7"];
     const [play, setPlay] = useState(false);
-
-    useEffect(() => {
-        const temp = fruits;
-        temp.sort(() => Math.random() * 2 - 1);
-        setFruits(temp);
-    }, [])
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [initLoad, setInitLoad] = useState(true);
+    const [fadeout, setFadeOut] = useState(false);
     const slotRef = createRef();
 
     useEffect(() => {
         setTimeout(() => setPlay(props.spinning), props.delay);
+        if (props.spinning) {
+            setImageLoaded(false);
+            if (!initLoad) {
+                setFadeOut(true);
+                setTimeout(() => setFadeOut(false), 300);
+            }
+            setInitLoad(false);
+        }
     }, [props.spinning]);
+
+    function getImageClass() {
+        if (fadeout) {
+            return "spinner-image-fadeout";
+        }
+        return imageLoaded && !play ? "spinner-image" : "spinner-image-disabled";
+    }
 
     return (
         <div className="spinner">
-            {props.url && !props.spinning ?
-                <img src={props.url} className="spinner-image" alt="" />
-                : <div className="slot-container" ref={slotRef}>
-                    <Marquee direction="down" speed={400} play={play}>
-                        {fruits.map((fruit, i) => (
-                            <div key={i} className="marquee-item">
-                                {fruit}
-                            </div>
-                        ))}
-                    </Marquee>
-                </div>}
+            {props.url !== "" &&
+                <img src={props.url} className={getImageClass()} alt=""
+                    onLoad={() => { setImageLoaded(true) }} />
+            }
+            {(play || props.spinning || initLoad) && !fadeout && <div className="slot-container" ref={slotRef}>
+                <Marquee direction="down" speed={400} play={play}>
+                    {fruits.map((fruit, i) => (
+                        <div key={i} className="marquee-item">
+                            {fruit}
+                        </div>
+                    ))}
+                </Marquee>
+            </div>}
         </div>
     )
 }
