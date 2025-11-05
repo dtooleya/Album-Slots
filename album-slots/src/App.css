@@ -218,7 +218,7 @@ body {
 
 .album-info-block {
   background-color: rgb(221, 221, 221);
-  margin-top: 40px;
+  margin-top: 20px;
   border-radius: 7px;
   color: black;
   text-align: left;
@@ -228,7 +228,7 @@ body {
   width: 189px;
   font-size: 18px;
   padding-bottom: 10px;
-  height: 300px;
+  height: 335px;
   animation: fadeIn 1s forwards;
   box-shadow: 2px 3px 6px black;
 }
@@ -247,11 +247,12 @@ body {
   width: fit-content;
   color: white;
   border-radius: 15px;
-  padding: 5px;
   margin-right: 5px;
   margin-top: 10px;
   display: inline-block;
   font-size: 12px;
+  cursor: pointer;
+  padding: 5px 8px;
 }
 
 .badge:hover {
