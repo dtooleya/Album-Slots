@@ -19,7 +19,7 @@ function SlotSpinner(props) {
             }
             setInitLoad(false);
         }
-    }, [props.spinning]);
+    }, [props.spinning, initLoad, props.delay]);
 
     function getImageClass() {
         if (fadeout) {
@@ -30,9 +30,14 @@ function SlotSpinner(props) {
 
     return (
         <div className="spinner">
-            {props.url !== "" &&
-                <img src={props.url} className={getImageClass()} alt=""
+            {props.album?.url === "Error" && !play &&
+                <div className="spinner-image-error">{props.album?.album_name}</div>
+            }
+            {!play && props.album?.url && props.album?.url !== "Error" &&
+                <div>
+                <img src={props.album?.url} className={getImageClass()} alt=""
                     onLoad={() => { setImageLoaded(true) }} />
+                    </div>
             }
             {(play || props.spinning || initLoad) && !fadeout && <div className="slot-container" ref={slotRef}>
                 <Marquee direction="down" speed={400} play={play}>

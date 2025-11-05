@@ -4,6 +4,7 @@ import { AlbumArtService } from "../service/albumArtService";
 import Arm from "./arm";
 import SlotSpinner from "./Slot-Spinner";
 import AlbumInfo from "./Album-Info";
+import Settings from "./Settings"
 
 function Body() {
 
@@ -55,13 +56,13 @@ function Body() {
 
     return (
         <div className="flex-center">
+            <Settings />
             <div className="body">
                 <div className="flex-around spinner-container">
                     {Array.from({ length: 5 }, (_, i) => (
                         <div key={i}>
                             <SlotSpinner spinning={spinning} key={"spinner_" + i} delay={(i + 1) * 300}
-                                url={selectedAlbums.length >= 5? selectedAlbums[i].url: ""}></SlotSpinner>
-
+                                album={selectedAlbums.length >= 5 ? selectedAlbums[i] : null} />
                             <AlbumInfo album={selectedAlbums[i]} delay={i * 300 + 1000} spinning={spinning} />
                         </div>
                     ))}

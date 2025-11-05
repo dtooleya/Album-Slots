@@ -108,6 +108,7 @@ body {
   height: 200px;
   width: 200px;
   background-color: white;
+  color: black;
   border: 1px solid black;
   box-shadow: inset 0px 0px 15px rgb(24 24 24 / 86%);
 }
@@ -126,6 +127,7 @@ body {
 
 .MuiSlider-track {
   color: grey;
+  width: 7px;
 }
 
 .MuiSlider-rail {
@@ -135,8 +137,8 @@ body {
 .connector {
   background-color: grey;
   width: 38px;
-  height: 6px;
-  top: -3px;
+  height: 7px;
+  top: -7px;
   position: relative;
   left: -20px;
   z-index: -1;
@@ -149,6 +151,21 @@ body {
   animation: fadeIn 1s ease-in forwards;
 }
 
+.spinner-image-error {
+  color: black;
+  animation: fadeIn 1s ease-in forwards;
+  text-align: center;
+  height: 100%;
+  width: 75%;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+.spinner .spinner-image-error {
+  align-items: center;
+  display: flex;
+}
+
 .spinner-image-disabled {
   display: none;
 }
@@ -159,7 +176,7 @@ body {
   height: 150px;
   margin-top: 25px;
   display: block;
-  margin-left:25px;
+  margin-left: 25px;
   animation: fadeOut 1s forwards;
 }
 
@@ -184,6 +201,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100px;
+  width: 100px;
   animation: fadeIn 1s forwards;
 }
 
@@ -212,12 +230,11 @@ body {
   padding-bottom: 10px;
   height: 300px;
   animation: fadeIn 1s forwards;
+  box-shadow: 2px 3px 6px black;
 }
 
-.album-info-block .disabled {
-    animation: fadeout 1s forwards;
-    background-color: #121212;
-
+.album-info-block.disabled {
+  animation: fadeOut 0.5s ease-in forwards !important;
 }
 
 .album-info-block .title {
@@ -240,6 +257,30 @@ body {
 .badge:hover {
   animation: grow 0.1s ease-in-out forwards;
 }
+
+.settings-gear {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+.settings-gear:hover {
+  animation: spin 1s ease forwards;
+  cursor: pointer;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(90deg);
+  }
+}
+
 
 @keyframes grow {
   from {

@@ -2,22 +2,30 @@ import { useEffect, useState } from "react";
 
 function AlbumInfo(props) {
     const [showImage, setShowImage] = useState(false);
+    const [initLoad, setInitLoad] = useState(true);
 
     useEffect(() => {
+        if (props.album?.url === "Error") {
+            console.log("here? ", props.album?.album_name)
+        }
         if (props.spinning) {
-            setShowImage(false);
-            return
+            setTimeout(() => { setShowImage(false); }, (props.delay / 2));
+            return;
         }
         if (props.album && props.album.album_name) {
-            setTimeout(() => { setShowImage(true); }, props.delay);
+            setTimeout(() => { 
+                setShowImage(true);
+                setInitLoad(false)
+             }, props.delay);
         }
-    }, [props.spinning, props.album])
+    }, [props.spinning, props.album, props.delay])
 
 
     return (
         <>
-            {showImage &&
-                <div className="album-info-block">
+            {!initLoad &&
+                <div className={"album-info-block " + (showImage ? "" : "disabled")}>
+                    <div>{showImage}</div>
                     {props.album && props.album.album_name &&
                         <>
                             <div className="title">Album:</div>
@@ -50,6 +58,7 @@ function AlbumInfo(props) {
                 </div>
             }
         </>
+
     );
 }
 
