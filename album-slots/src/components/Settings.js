@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addGenre, removeGenre, addDescriptor, removeDescriptor } from "../service/settingsSlice";
 
 function Settings() {
-    const [showSettings, setShowSettings] = useState(true);
+    const [showSettings, setShowSettings] = useState(false);
     const fullGenreList = ["Rock", "Pop", "Jazz"];
     const fullDescriptorList = ["Energetic", "Calm", "Happy", "Sad"];
     let selectedGenres = useSelector(state => state.settings.genres);

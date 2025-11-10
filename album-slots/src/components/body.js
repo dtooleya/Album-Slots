@@ -22,7 +22,6 @@ function Body() {
 
     async function handleFetch(albumIds) {
         const data = await DatabaseService.selectMultipleAlbumsById(albumIds);
-        console.log("fetched albums:", data);
         const artPromises = data.map(album =>
             AlbumArtService.getAlbumCover(album).catch(err => {
                 console.error('getAlbumCover error for', album, err);

@@ -1,24 +1,49 @@
 import { useEffect, useState } from "react";
+import { addGenre, removeGenre, addDescriptor, removeDescriptor } from "../service/settingsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from 'react-toastify';
 
 function AlbumInfo(props) {
     const [showImage, setShowImage] = useState(false);
     const [initLoad, setInitLoad] = useState(true);
+    let selectedGenres = useSelector(state => state.settings.genres);
+    let selectedDescriptors = useSelector(state => state.settings.descriptors);
+
+    let dispatch = useDispatch();
 
     useEffect(() => {
-        if (props.album?.url === "Error") {
-            console.log("here? ", props.album?.album_name)
-        }
         if (props.spinning) {
             setTimeout(() => { setShowImage(false); }, (props.delay / 2));
             return;
         }
         if (props.album && props.album.album_name) {
-            setTimeout(() => { 
+            setTimeout(() => {
                 setShowImage(true);
                 setInitLoad(false)
-             }, props.delay);
+            }, props.delay);
         }
-    }, [props.spinning, props.album, props.delay])
+    }, [props.spinning, props.album, props.delay]);
+
+    function handleGenreChange(genre) {
+        if (!selectedGenres.includes(genre)) {
+            toast(`Added ${genre} to genre filter`);
+            dispatch(addGenre(genre));
+        } else {
+            toast(`Removed ${genre} to genre filter`);
+            dispatch(removeGenre(genre));
+        }
+    }
+
+    function handleDescriptorChange(descriptor) {
+        if (!selectedDescriptors.includes(descriptor)) {
+            toast(`Added ${descriptor} to descriptor filter`);
+            dispatch(addDescriptor(descriptor));
+        } else {
+            toast(`Removed ${descriptor} to descriptor filter`);
+            dispatch(removeDescriptor(descriptor));
+        }
+    }
+
 
 
     return (
@@ -42,7 +67,7 @@ function AlbumInfo(props) {
                         <>
                             <div className="title">Genres:</div>
                             {props.album.genres.map((genre) => (
-                                <span className="badge" key={genre}>{genre}</span>
+                                <span className="badge" key={genre} onClick={() => handleGenreChange(genre)}>{genre}</span>
                             ))}
                         </>
                     }
@@ -50,7 +75,7 @@ function AlbumInfo(props) {
                         <>
                             <div className="title">Descriptors:</div>
                             {props.album.descriptors.map((descriptor) => (
-                                <span className="badge">{descriptor}</span>
+                                <span className="badge" key={descriptor} onClick={() => handleDescriptorChange(descriptor)}>{descriptor}</span>
                             ))}
                         </>
                     }

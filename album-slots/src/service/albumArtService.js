@@ -2,7 +2,6 @@ export const AlbumArtService = {
 
     async getThumbnailURL(json) {
         if (json && json.images && json.images.length > 0) {
-            console.log(json)
             return json.images[0].thumbnails.small;
         }
         return 'Error';
