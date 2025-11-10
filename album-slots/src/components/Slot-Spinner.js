@@ -2,7 +2,7 @@ import { createRef, useEffect, useState } from "react";
 import Marquee from "react-fast-marquee"
 
 function SlotSpinner(props) {
-    const fruits = ["🍒", "🍉", "🍊", "🍓", "🍇", "🥝", "7"];
+    const fruits = ["🍒", "🍉", "🍊", "BAR", "🍓", "🍇", "🥝", "7"];
     const [play, setPlay] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [initLoad, setInitLoad] = useState(true);

@@ -1,17 +1,35 @@
 import Autocomplete from "./Autocomplete";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import '../styles/Sidebar.css';
 import { useDispatch, useSelector } from "react-redux";
-import { addGenre, removeGenre, addDescriptor, removeDescriptor } from "../service/settingsSlice";
+import { addGenre, removeGenre, addDescriptor, removeDescriptor, toggleShowArt, reset } from "../service/settingsSlice";
+import { DatabaseService } from "../service/databaseService";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 
 function Settings() {
     const [showSettings, setShowSettings] = useState(false);
-    const fullGenreList = ["Rock", "Pop", "Jazz"];
-    const fullDescriptorList = ["Energetic", "Calm", "Happy", "Sad"];
+    const [fullGenreList, setFullGenreList] = useState([]);
+    const [fullDescriptorList, setFullDescriptorList] = useState([]);
     let selectedGenres = useSelector(state => state.settings.genres);
     let selectedDescriptors = useSelector(state => state.settings.descriptors);
+    let showArt = useSelector(state => state.settings.showArt);
 
     let dispatch = useDispatch();
+
+    useEffect(() => {
+        async function getDescriptors() {
+            const data = await DatabaseService.getUniqueDescriptors();
+            setFullDescriptorList(data);
+        }
+        async function getGenres() {
+            const data = await DatabaseService.getUniqueGenres();
+            setFullGenreList(data);
+        }
+        getDescriptors();
+        getGenres();
+    }, []);
 
     function toggleSettings() {
         setShowSettings(!showSettings);
@@ -46,7 +64,12 @@ function Settings() {
                         handleChange={handleGenreChange} selected={selectedGenres} />
                     <Autocomplete label="Descriptors" fullList={fullDescriptorList}
                         handleChange={handleDescriptorChange} selected={selectedDescriptors} />
-
+                    <FormGroup>
+                        <FormControlLabel control={
+                            <Checkbox checked={showArt} onChange={()=>dispatch(toggleShowArt())} sx={{ '& .MuiSvgIcon-root': { color: 'white', }, }} />
+                        } label="Show Album Art" />
+                    </FormGroup>
+                    <button onClick={() => dispatch(reset())}>Default</button>
                 </div>
             </div>
         </>

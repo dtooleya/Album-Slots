@@ -5,20 +5,52 @@ import Arm from "./arm";
 import SlotSpinner from "./Slot-Spinner";
 import AlbumInfo from "./Album-Info";
 import Settings from "./Settings"
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function Body() {
 
     const [spinning, setSpinning] = useState(false);
     const [selectedAlbums, setSelectedAlbums] = useState([]);
+    let selectedGenres = useSelector(state => state.settings.genres);
+    let selectedDescriptors = useSelector(state => state.settings.descriptors);
 
     useEffect(() => {
+        async function generateAlbumIds(resolve, reject) {
+            const albumIds = [];
+            let existingIds;
+            if (selectedGenres.length > 0 || selectedDescriptors.length > 0) {
+                existingIds = await DatabaseService.fetchAllAlbumIdsWithFilter(selectedGenres, selectedDescriptors);
+            } else {
+                existingIds = await DatabaseService.fetchAllAlbumIds();
+            }
+            if (!existingIds || existingIds.length < 5) {
+                reject(0);
+                return;
+            }
+
+            while (albumIds.length !== 5) {
+                const randIndex = Math.floor(Math.random() * existingIds.length);
+                const randId = existingIds[randIndex];
+                if (!albumIds.includes(randId)) {
+                    albumIds.push(randId);
+                }
+            }
+
+            resolve(albumIds);
+        }
         if (spinning) {
             let promise = new Promise(function (resolve, reject) {
                 generateAlbumIds(resolve, reject);
             });
-            promise.then(handleFetch);
+            promise.then(handleFetch).catch(handleError);
         }
-    }, [spinning]);
+    }, [spinning, selectedDescriptors, selectedGenres]);
+
+    function handleError() {
+        toast.error(`Not enough albums with given filters, please add more`);
+        setSpinning(false);
+    }
 
     async function handleFetch(albumIds) {
         const data = await DatabaseService.selectMultipleAlbumsById(albumIds);
@@ -32,25 +64,6 @@ function Body() {
         const artResults = await Promise.all(artPromises);
         const albumsWithUrl = data.map((album, i) => ({ ...album, url: artResults[i] }));
         setSelectedAlbums(albumsWithUrl);
-    }
-
-    async function generateAlbumIds(resolve, reject) {
-        const albumIds = [];
-        const existingIds = await DatabaseService.fetchAllAlbumIds();
-        if (!existingIds || existingIds.length < 5) {
-            reject(0);
-            return;
-        }
-
-        while (albumIds.length !== 5) {
-            const randIndex = Math.floor(Math.random() * existingIds.length);
-            const randId = existingIds[randIndex];
-            if (!albumIds.includes(randId)) {
-                albumIds.push(randId);
-            }
-        }
-
-        resolve(albumIds);
     }
 
     return (

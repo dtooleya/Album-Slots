@@ -28,6 +28,12 @@ function Autocomplete({label, fullList, handleChange, selected}) {
         }
     }
 
+    function handleEnter(key, item) {
+        if (key === 'Enter') {
+            handleSelection(item);
+        }
+    }
+
 
     return (
         <>
@@ -36,6 +42,7 @@ function Autocomplete({label, fullList, handleChange, selected}) {
                 type="text"
                 value={input}
                 onChange={(event) => handleInputChange(event.target.value)}
+                onKeyDown={(event) => handleEnter(event.key, event.target.value)}
                 placeholder="Type to search..."
             />
             {suggestions.length > 0 && (

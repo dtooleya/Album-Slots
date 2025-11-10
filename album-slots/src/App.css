@@ -2,7 +2,7 @@
   margin-top: 15px;
   padding: 10px;
   border-radius: 10px;
-  margin-left: 30%;
+  margin-left: 25%;
   margin-right: 30%;
   margin-bottom: 0px
 }
@@ -54,11 +54,11 @@ body {
   margin: 20px;
   font-family: 'Arial', sans-serif;
   border: 10px solid red;
-  height: 67vh;
-  width: 70vw;
   background-color: #b6b6b6;
   border-radius: 10px;
   box-shadow: inset 0px 0px 10px rgb(24 24 24 / 86%);
+  width: 1320px;
+  height: 630px;
 }
 
 .light {
@@ -269,6 +269,15 @@ body {
 
 .settings-gear:hover {
   animation: spin 1s ease forwards;
+  cursor: pointer;
+}
+
+button {
+  background-color: red;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
   cursor: pointer;
 }
 

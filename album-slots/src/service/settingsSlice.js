@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     genres: [],
-    descriptors: []
+    descriptors: [],
+    showArt: true,
 }
 
 const settingsSlice = createSlice({
@@ -19,11 +20,16 @@ const settingsSlice = createSlice({
            state.descriptors.push(action.payload);
         },
         removeDescriptor: (state, action) => {
-            state.descriptors = state.descriptors.filter(descriptor => descriptor !== action.payload)
-        }
+            state.descriptors = state.descriptors.filter(descriptor => descriptor !== action.payload);
+        },
+        toggleShowArt: (state) => {
+            state.showArt = !state.showArt;
+        },
+        reset: () => initialState,
+        
     }
 });
 
-export const { addGenre, removeGenre, addDescriptor, removeDescriptor } = settingsSlice.actions;
+export const { addGenre, removeGenre, addDescriptor, removeDescriptor, toggleShowArt, reset } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
