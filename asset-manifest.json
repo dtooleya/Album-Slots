@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Album-Slots/static/css/main.fb1f81e2.css",
+    "main.js": "/Album-Slots/static/js/main.c533b529.js",
+    "static/js/453.7fd5f3eb.chunk.js": "/Album-Slots/static/js/453.7fd5f3eb.chunk.js",
+    "index.html": "/Album-Slots/index.html",
+    "main.fb1f81e2.css.map": "/Album-Slots/static/css/main.fb1f81e2.css.map",
+    "main.c533b529.js.map": "/Album-Slots/static/js/main.c533b529.js.map",
+    "453.7fd5f3eb.chunk.js.map": "/Album-Slots/static/js/453.7fd5f3eb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fb1f81e2.css",
+    "static/js/main.c533b529.js"
+  ]
+}
