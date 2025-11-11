@@ -1,17 +1,18 @@
 import { createRef, useEffect, useState } from "react";
 import Marquee from "react-fast-marquee"
 
-function SlotSpinner(props) {
+function SlotSpinner({spinning, delay, album}) {
     const fruits = ["🍒", "🍉", "🍊", "BAR", "🍓", "🍇", "🥝", "7"];
     const [play, setPlay] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [initLoad, setInitLoad] = useState(true);
     const [fadeout, setFadeOut] = useState(false);
+    const [currentName, setCurrentName] = useState(false);
     const slotRef = createRef();
 
     useEffect(() => {
-        setTimeout(() => setPlay(props.spinning), props.delay);
-        if (props.spinning) {
+        setTimeout(() => setPlay(spinning), delay);
+        if (spinning) {
             setImageLoaded(false);
             if (!initLoad) {
                 setFadeOut(true);
@@ -19,7 +20,11 @@ function SlotSpinner(props) {
             }
             setInitLoad(false);
         }
-    }, [props.spinning, initLoad, props.delay]);
+    }, [spinning, initLoad, delay]);
+
+    useEffect(() => {
+        setTimeout(() => setCurrentName(album?.album_name), delay + 400);
+    }, [album, delay]);
 
     function getImageClass() {
         if (fadeout) {
@@ -30,16 +35,16 @@ function SlotSpinner(props) {
 
     return (
         <div className="spinner">
-            {props.album?.url === "Error" && !play &&
-                <div className="spinner-image-error">{props.album?.album_name}</div>
+            {album?.url === "Error" && !play &&
+                <div className="spinner-image-error">{currentName}</div>
             }
-            {!play && props.album?.url && props.album?.url !== "Error" &&
+            {!play && album?.url && album?.url !== "Error" &&
                 <div>
-                <img src={props.album?.url} className={getImageClass()} alt=""
+                <img src={album?.url} className={getImageClass()} alt=""
                     onLoad={() => { setImageLoaded(true) }} />
                     </div>
             }
-            {(play || props.spinning || initLoad) && !fadeout && <div className="slot-container" ref={slotRef}>
+            {(play || spinning || initLoad) && !fadeout && <div className="slot-container" ref={slotRef}>
                 <Marquee direction="down" speed={400} play={play}>
                     {fruits.map((fruit, i) => (
                         <div key={i} className="marquee-item">

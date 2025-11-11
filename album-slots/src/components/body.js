@@ -14,6 +14,7 @@ function Body() {
     const [selectedAlbums, setSelectedAlbums] = useState([]);
     let selectedGenres = useSelector(state => state.settings.genres);
     let selectedDescriptors = useSelector(state => state.settings.descriptors);
+    let showArt = useSelector(state => state.settings.showArt);
 
     useEffect(() => {
         async function generateAlbumIds(resolve, reject) {
@@ -54,14 +55,18 @@ function Body() {
 
     async function handleFetch(albumIds) {
         const data = await DatabaseService.selectMultipleAlbumsById(albumIds);
-        const artPromises = data.map(album =>
-            AlbumArtService.getAlbumCover(album).catch(err => {
-                console.error('getAlbumCover error for', album, err);
-                return 'Error';
-            })
-        );
+        let artResults;
+        if (showArt) {
+            const artPromises = data.map(album =>
+                AlbumArtService.getAlbumCover(album).catch(err => {
+                    console.error('getAlbumCover error for', album, err);
+                    return 'Error';
+                }));
 
-        const artResults = await Promise.all(artPromises);
+            artResults = await Promise.all(artPromises);
+        } else {
+            artResults = Array(data.length).fill("Error");
+        }
         const albumsWithUrl = data.map((album, i) => ({ ...album, url: artResults[i] }));
         setSelectedAlbums(albumsWithUrl);
     }

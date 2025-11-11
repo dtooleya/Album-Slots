@@ -53,7 +53,7 @@ function Settings() {
 
     return (
         <>
-            <img className="settings-gear" src="images/gear.png" alt="Settings"
+            <img className="settings-gear" src="/Album-Slots/images/gear.png" alt="Settings"
                 onClick={() => { toggleSettings() }} />
             <div className={"sidebar " + (showSettings ? "open" : "")}>
                 <div className="sidebar-container">
@@ -68,6 +68,7 @@ function Settings() {
                         <FormControlLabel control={
                             <Checkbox checked={showArt} onChange={()=>dispatch(toggleShowArt())} sx={{ '& .MuiSvgIcon-root': { color: 'white', }, }} />
                         } label="Show Album Art" />
+                        <span className="hint" style={{marginTop:"-7px"}}>Spin again for this to take effect</span>
                     </FormGroup>
                     <button onClick={() => dispatch(reset())}>Default</button>
                 </div>

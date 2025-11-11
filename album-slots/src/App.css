@@ -284,6 +284,11 @@ button {
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  margin-top: 15px;
+}
+
+.MuiFormControlLabel-root {
+  margin-bottom: 0 !important;
 }
 
 @keyframes spin {
