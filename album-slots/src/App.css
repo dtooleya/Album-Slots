@@ -116,6 +116,7 @@ body {
   color: black;
   border: 1px solid black;
   box-shadow: inset 0px 0px 15px rgb(24 24 24 / 86%);
+  overflow: hidden;
 }
 
 .arm {
